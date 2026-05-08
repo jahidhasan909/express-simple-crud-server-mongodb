@@ -64,6 +64,23 @@ const run = async () => {
 
         })
 
+        app.patch('/user/:id', async (req, res) => {
+            const id = req.params.id
+            const filter = {
+                _id: new ObjectId(id)
+            }
+            const modifyUser = req.body
+            const updateUser = {
+                $set: {
+                    name: modifyUser.name,
+                    email: modifyUser.email,
+                    role: modifyUser.role
+                }
+            }
+            const result = await userCollaction.updateOne(filter, updateUser);
+            res.send(result)
+        })
+
 
     } catch (error) {
         res.status(500).send({ error: error.message });
