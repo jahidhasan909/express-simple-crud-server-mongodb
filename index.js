@@ -3,7 +3,7 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require("dotenv").config();
 const app = express()
 const cors = require('cors')
-const port = process.env.PROT || 7001
+const port = 7001
 
 app.use(cors())
 app.use(express.json())
@@ -47,8 +47,19 @@ const run = async () => {
             res.send(users)
 
         })
+        app.delete('/user/:id', async (req, res) => {
+            const id = req.params.id
+            const query = {
+                _id: new ObjectId(id)
+            }
+            const userss = await userCollaction.deleteOne(query)
+            res.send(userss)
+
+        })
 
 
+    } catch (error) {
+        res.status(500).send({ error: error.message });
     }
 
     finally {
@@ -64,7 +75,7 @@ run().catch(console.dir)
 
 
 app.get('/', (req, res) => {
-    res.send('simple crud server')
+    res.send({ status: 'success' })
 })
 
 
