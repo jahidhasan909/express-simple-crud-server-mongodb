@@ -57,6 +57,13 @@ const run = async () => {
 
         })
 
+        app.post('/user', async (req, res) => {
+            const newUser = req.body;
+            const result = await userCollaction.insertOne(newUser)
+            res.send(result)
+
+        })
+
 
     } catch (error) {
         res.status(500).send({ error: error.message });
